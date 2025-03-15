@@ -1,3 +1,3 @@
-import './style.css'
+import './css/default.css'
 import './app'
 

@@ -8,6 +8,8 @@ const todo = new TodoComponent();
 
 const todoWrapper = document.createElement('div');
 
+todoWrapper.setAttribute('id', 'my-list');
+
 appEl?.appendChild(todoWrapper);
 
 todo.mount(todoWrapper)

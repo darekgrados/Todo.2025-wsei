@@ -7,8 +7,11 @@ export class TodoComponent {
 
     mount(targetEl: HTMLElement) {
         this.#targetEl = targetEl
+        this.#targetEl.classList.add('todo');
 
         this.#listEl = document.createElement('ul');
+        this.#listEl.classList.add('todo-list');
+
         this.#targetEl.appendChild(this.#listEl);
 
         this.#footerEl = document.createElement('form');
@@ -26,10 +29,13 @@ export class TodoComponent {
         })
 
         this.#footerEl.appendChild(this.#addButtonEl);
+        this.#footerEl.classList.add('todo-footer');
     }
 
     addItem(extText?: string) {
         const itemEl = document.createElement('li')
+        itemEl.classList.add('todo-item');
+
         itemEl.textContent = extText ? extText : this.#inputEl?.value ?? null
 
         if (this.#inputEl) this.#inputEl.value = ''
