@@ -1,35 +1,32 @@
 export class TodoComponent {
-    #targetEl: HTMLElement | undefined;
     #listEl: HTMLElement | undefined;
-    #footerEl: HTMLElement | undefined;
     #inputEl: HTMLTextAreaElement | undefined;
-    #addButtonEl: HTMLButtonElement | undefined;
 
     mount(targetEl: HTMLElement) {
-        this.#targetEl = targetEl
-        this.#targetEl.classList.add('todo');
+
+        targetEl.classList.add('todo');
 
         this.#listEl = document.createElement('ul');
         this.#listEl.classList.add('todo-list');
 
-        this.#targetEl.appendChild(this.#listEl);
+        targetEl.appendChild(this.#listEl);
 
-        this.#footerEl = document.createElement('form');
-        this.#targetEl.appendChild(this.#footerEl);
+        const footerEl = document.createElement('form');
+        targetEl.appendChild(footerEl);
 
         this.#inputEl = document.createElement('textarea');
-        this.#footerEl.appendChild(this.#inputEl);
+        footerEl.appendChild(this.#inputEl);
 
-        this.#addButtonEl = document.createElement('button');
-        this.#addButtonEl.textContent = 'Dodaj'
+        const addButtonEl = document.createElement('button');
+        addButtonEl.textContent = 'Dodaj'
 
-        this.#addButtonEl.addEventListener('click', (evt) => {
+        addButtonEl.addEventListener('click', (evt) => {
             this.addItem()
             evt.preventDefault()
         })
 
-        this.#footerEl.appendChild(this.#addButtonEl);
-        this.#footerEl.classList.add('todo-footer');
+        footerEl.appendChild(addButtonEl);
+        footerEl.classList.add('todo-footer');
     }
 
     addItem(extText?: string) {
@@ -61,8 +58,4 @@ export class TodoComponent {
         this.#inputEl.value = ''
         this.#listEl.appendChild(itemEl);
     }
-}
-
-export function putLog(message: string) {
-    console.log(message)
 }
