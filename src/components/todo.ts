@@ -33,6 +33,8 @@ export class TodoComponent {
     }
 
     addItem(extText?: string) {
+        if (!this.#inputEl || !this.#listEl) throw new Error('Component probaly not initialized!');
+
         const itemEl = document.createElement('li')
         itemEl.classList.add('todo-item');
 
@@ -46,14 +48,18 @@ export class TodoComponent {
         textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
         textEl.classList.add('todo-item-text')
 
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Usuń";
+        deleteButton.addEventListener("click", () => {
+            this.#listEl!.removeChild(itemEl);
+        });
+
         itemEl.appendChild(checkEl)
         itemEl.appendChild(textEl)
+        itemEl.appendChild(deleteButton)
 
-        if (this.#inputEl) this.#inputEl.value = ''
-        else throw new Error('Component probaly not initialized!');
-
-        if (this.#listEl) this.#listEl.appendChild(itemEl);
-        else throw new Error('Component probaly not initialized!');
+        this.#inputEl.value = ''
+        this.#listEl.appendChild(itemEl);
     }
 }
 
