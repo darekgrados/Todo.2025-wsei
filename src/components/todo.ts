@@ -36,7 +36,18 @@ export class TodoComponent {
         const itemEl = document.createElement('li')
         itemEl.classList.add('todo-item');
 
-        itemEl.textContent = extText ? extText : this.#inputEl?.value ?? null
+        const checkEl = document.createElement('input');
+        checkEl.type = 'checkbox'
+        checkEl.addEventListener('change', () => {
+            itemEl.classList.toggle('todo-item-done');
+        });
+
+        const textEl = document.createElement('div');
+        textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
+        textEl.classList.add('todo-item-text')
+
+        itemEl.appendChild(checkEl)
+        itemEl.appendChild(textEl)
 
         if (this.#inputEl) this.#inputEl.value = ''
         else throw new Error('Component probaly not initialized!');

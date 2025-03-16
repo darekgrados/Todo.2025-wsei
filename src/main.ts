@@ -1,3 +1,4 @@
-import './css/default.css'
+import './css/app.css'
+import './css/todo-default.css'
 import './app'
 
