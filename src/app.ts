@@ -1,13 +1,14 @@
-import { TodoComponent, putLog } from "./components/todo";
+import { TodoBoostrapTheme, TodoComponent } from "./components/todo";
 
-putLog("Hello from main.ts");
+const appEl = document.getElementById('app');
 
-const todo = new TodoComponent();
+const todoWrapper = document.createElement('div');
+todoWrapper.setAttribute('id', 'my-list');
 
-const appEl = document.getElementById("app")!;
+appEl?.appendChild(todoWrapper);
 
-const wrapper = document.createElement("div");
+const todo = new TodoComponent({
+    theme: TodoBoostrapTheme
+});
 
-appEl!.appendChild(wrapper);
-
-todo.mount(wrapper);
+todo.mount(todoWrapper)
