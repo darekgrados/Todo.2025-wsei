@@ -50,7 +50,7 @@ export class TodoComponent {
       if (itemDoneTextClass) textEl.classList.toggle(itemDoneTextClass);
     });
     checkEl.classList.add(...classUnify(this.#theme?.list_item_check ?? ''))
-
+    
     const textEl = document.createElement('div');
     textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
     textEl.classList.add(...classUnify(this.#theme?.list_item_text ?? 'todo-item-text'));
@@ -173,6 +173,25 @@ export const TodoMaterializeTheme: TodoThemeSchema = {
   footer_input: 'input-field flex-grow-1 mr-2',
   footer_addButton: 'btn blue',
   hidden: 'hide'
+}
+
+// Tailwind
+export const TodoTailwindTheme: TodoThemeSchema = {
+  root: 'flex flex-col',
+  list: 'flex-grow p-2 space-y-2',
+  list_item: 'flex items-center border rounded p-2 shadow-sm',
+  list_itemDone: '',
+  list_item_check: 'mr-3 h-5 w-5',
+  list_item_text: 'flex-grow mr-3',
+  //list_item_textDone: 'line-through text-gray-400',
+  list_item_textDone: 'has-text-line-through',
+  list_item_textEditInput: 'border rounded mr-3 p-1',
+  list_item_deleteButton: 'bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded',
+  list_item_editButton: 'bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded ml-1',
+  footer: 'flex items-center p-2 border-t',
+  footer_input: 'flex-grow border rounded mr-2 p-1',
+  footer_addButton: 'bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded',
+  hidden: 'hidden'
 }
 
 interface TodoOptions {

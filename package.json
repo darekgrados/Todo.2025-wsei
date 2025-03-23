@@ -14,9 +14,11 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.15",
     "bootstrap": "^5.3.3",
     "bulma": "^1.0.3",
     "foundation-sites": "^6.9.0",
-    "materialize-css": "^1.0.0-rc.2"
+    "materialize-css": "^1.0.0-rc.2",
+    "tailwindcss": "^4.0.15"
   }
 }
