@@ -103,6 +103,7 @@ export class TodoComponent {
     return classList.split(' ');
   }
   
+  // Bootstrap
   export const TodoBoostrapTheme: TodoThemeSchema = {
     root: 'd-flex flex-column',
     list: 'list-group flex-grow-1 p-2',
@@ -120,14 +121,15 @@ export class TodoComponent {
     hidden: 'd-none'
   }
 
+  // Bulma
   export const TodoBulmaTheme: TodoThemeSchema = {
     root: 'is-flex is-flex-direction-column',
     list: 'is-flex-grow-1 p-2',
     list_item: 'is-flex box is-align-items-center',
     list_itemDone: '',
-    list_item_check: 'checkbox mr-3',
+    list_item_check: 'mr-3',
     list_item_text: 'is-flex-grow-1 mr-3',
-    list_item_textDone: 'has-text-grey-light has-text-weight-light is-italic',
+    list_item_textDone: 'has-text-line-through',
     list_item_textEditInput: 'input mr-3',
     list_item_deleteButton: 'button is-danger',
     list_item_editButton: 'button is-warning ml-1',
@@ -135,6 +137,24 @@ export class TodoComponent {
     footer_input: 'input mr-2',
     footer_addButton: 'button is-primary',
     hidden: 'is-hidden'
+  }
+
+  // Foundation
+  export const TodoFoundationTheme: TodoThemeSchema = {
+    root: 'flex-container flex-dir-column',
+    list: 'flex-child-grow p-2', 
+    list_item: 'callout primary flex-container flex-dir-row align-middle',
+    list_itemDone: '',
+    list_item_check: 'mr-2',
+    list_item_text: 'flex-child-grow mr-2', 
+    list_item_textDone: 'has-text-line-through',
+    list_item_textEditInput: 'input mr-2', 
+    list_item_deleteButton: 'button alert',
+    list_item_editButton: 'button warning ml-1', 
+    footer: 'flex-container flex-dir-row align-middle p-2',
+    footer_input: 'input mr-2',
+    footer_addButton: 'button primary',
+    hidden: 'hide'
   }
   
   interface TodoOptions {

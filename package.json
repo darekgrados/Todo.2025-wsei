@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "bulma": "^1.0.3"
+    "bulma": "^1.0.3",
+    "foundation-sites": "^6.9.0"
   }
 }
