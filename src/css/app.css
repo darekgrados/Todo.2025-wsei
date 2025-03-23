@@ -21,8 +21,24 @@ button {
 
 /* app styles */
 #my-list {
-  height: 100vh;
+  /* height: 100vh; */
+  height: calc(100vh - 60px);
   max-width: 640px;
   min-width: 480px;
   background-color: navajowhite;
+}
+
+.no-materialize {
+  display: inline-block !important;
+  position: relative !important;
+  visibility: visible !important;
+  height: auto !important;
+  width: auto !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.no-materialize option {
+  color: inherit !important;
+  background: inherit !important;
 }
