@@ -1,4 +1,4 @@
-import { TodoBoostrapTheme, TodoBulmaTheme, TodoFoundationTheme, TodoComponent } from "./components/todo";
+import { TodoBoostrapTheme, TodoBulmaTheme, TodoFoundationTheme, TodoMaterializeTheme, TodoComponent } from "./components/todo";
 
 const appEl = document.getElementById('app');
 
@@ -10,7 +10,8 @@ appEl?.appendChild(todoWrapper);
 const todo = new TodoComponent({
     //theme: TodoBoostrapTheme
     //theme: TodoBulmaTheme
-    theme: TodoFoundationTheme
+    //theme: TodoFoundationTheme
+    theme: TodoMaterializeTheme
 });
 
 todo.mount(todoWrapper)
