@@ -119,6 +119,23 @@ export class TodoComponent {
     footer_addButton: 'btn btn-primary',
     hidden: 'd-none'
   }
+
+  export const TodoBulmaTheme: TodoThemeSchema = {
+    root: 'is-flex is-flex-direction-column',
+    list: 'is-flex-grow-1 p-2',
+    list_item: 'is-flex box is-align-items-center',
+    list_itemDone: '',
+    list_item_check: 'checkbox mr-3',
+    list_item_text: 'is-flex-grow-1 mr-3',
+    list_item_textDone: 'has-text-grey-light has-text-weight-light is-italic',
+    list_item_textEditInput: 'input mr-3',
+    list_item_deleteButton: 'button is-danger',
+    list_item_editButton: 'button is-warning ml-1',
+    footer: 'is-flex p-2',
+    footer_input: 'input mr-2',
+    footer_addButton: 'button is-primary',
+    hidden: 'is-hidden'
+  }
   
   interface TodoOptions {
     theme: TodoThemeSchema
