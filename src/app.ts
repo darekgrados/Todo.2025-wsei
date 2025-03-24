@@ -18,11 +18,10 @@ const themes = {
 
 const cssImports = {
     Default: () => import('./css/todo-default.css'),
-    //Default: () => import('./css/app.css'),
     Bootstrap: () => import('./css/bootstrap.scss'),
-    Bulma: () => import('./css/bulma.scss'),
-    Foundation: () => import('./css/foundation.scss'),
-    Materialize: () => import('./css/materialize.scss'),
+    Bulma: () => import('./css/bulma.css'),
+    Foundation: () => import('./css/foundation.css'),
+    Materialize: () => import('./css/materialize.css'),
     Tailwind: () => import('./css/tailwind.css')
 };
 
@@ -53,6 +52,7 @@ async function loadTheme(themeName: keyof typeof themes) {
     }
 
     if (currentTodo && todoWrapper) {
+        todoWrapper.className = '';
         todoWrapper.innerHTML = '';
     }
 
