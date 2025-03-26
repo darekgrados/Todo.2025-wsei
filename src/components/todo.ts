@@ -152,7 +152,7 @@ export const TodoFoundationTheme: TodoThemeSchema = {
   list_item_deleteButton: 'button alert mt-16',
   list_item_editButton: 'button warning ml-1',
   footer: 'flex-container flex-dir-row align-middle p-2',
-  footer_input: 'input mr-2',
+  footer_input: 'input mr-2 ml-1',
   footer_addButton: 'button primary',
   hidden: 'hide'
 }

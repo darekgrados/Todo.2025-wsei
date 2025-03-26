@@ -14,41 +14,49 @@ const themes = {
     Foundation: TodoFoundationTheme,
     Materialize: TodoMaterializeTheme,
     Tailwind: TodoTailwindTheme
-};
+} as const;
 
-const cssImports = {
-    Default: () => import('./css/todo-default.css'),
-    Bootstrap: () => import('./css/bootstrap.scss'),
-    Bulma: () => import('./css/bulma.css'),
-    Foundation: () => import('./css/foundation.css'),
-    Materialize: () => import('./css/materialize.css'),
-    Tailwind: () => import('./css/tailwind.css')
-};
+const cssPathsInline = {
+    Default: './css/todo-default.css?inline',
+    Bootstrap: './css/bootstrap.scss?inline',
+    Bulma: './css/bulma.css?inline',
+    Foundation: './css/foundation.css?inline',
+    Materialize: './css/materialize.css?inline',
+    Tailwind: './css/tailwind.css?inline'
+} as const;
 
 const appEl = document.getElementById('app');
+if (!appEl) {
+    throw new Error("Nie znaleziono elementu #app");
+}
 
 const themeSelector = document.createElement('select');
-themeSelector.classList.add('no-materialize'); // Prevent Materialize from styling the select
+themeSelector.classList.add('no-materialize');
 Object.keys(themes).forEach(themeName => {
     const option = document.createElement('option');
     option.value = themeName;
     option.textContent = themeName;
     themeSelector.appendChild(option);
 });
-
-appEl?.appendChild(themeSelector);
+appEl.appendChild(themeSelector);
 
 const todoWrapper = document.createElement('div');
 todoWrapper.setAttribute('id', 'my-list');
-appEl?.appendChild(todoWrapper);
+appEl.appendChild(todoWrapper);
 
 let currentTodo: TodoComponent | null = null;
 
 async function loadTheme(themeName: keyof typeof themes) {
-    document.querySelectorAll('[data-dynamic-style]').forEach(el => el.remove());
+    document.querySelectorAll('style[data-dynamic-style]').forEach(el => el.remove());
 
-    if (themeName !== 'Default') {
-        await cssImports[themeName]();
+    const cssPath = cssPathsInline[themeName];
+    if (cssPath) {
+        const cssModule = await import(cssPath);
+        const cssContent = cssModule.default;
+        const styleEl = document.createElement('style');
+        styleEl.textContent = cssContent;
+        styleEl.setAttribute('data-dynamic-style', themeName);
+        document.head.appendChild(styleEl);
     }
 
     if (currentTodo && todoWrapper) {
@@ -59,7 +67,6 @@ async function loadTheme(themeName: keyof typeof themes) {
     currentTodo = new TodoComponent({
         theme: themes[themeName] || undefined
     });
-
     currentTodo.mount(todoWrapper);
 }
 
