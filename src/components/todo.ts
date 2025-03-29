@@ -4,9 +4,11 @@ export class TodoComponent {
   #inputEl: HTMLTextAreaElement | undefined;
 
   #theme: TodoThemeSchema | undefined
+  #storageProvider: TodoStorageProvider | undefined
 
   constructor(options?: TodoOptions) {
     this.#theme = options?.theme
+    this.#storageProvider = options?.storage
   }
 
   mount(parentEl?: HTMLElement) {
@@ -43,6 +45,11 @@ export class TodoComponent {
   }
 
   addItem(extText?: string) {
+    const todoItem: TodoItem = {
+      text: extText ? extText : this.#inputEl?.value ?? '',
+      isChecked: false
+    }
+
     if (!this.#inputEl || !this.#listEl) throw new Error('Component probaly not initialized!');
 
     const itemEl = document.createElement('li')
@@ -60,13 +67,16 @@ export class TodoComponent {
     checkEl.classList.add(...classUnify(this.#theme?.list_item_check ?? ''))
 
     const textEl = document.createElement('div');
-    textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
+    textEl.textContent = todoItem.text
     textEl.classList.add(...classUnify(this.#theme?.list_item_text ?? 'todo-item-text'));
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Usuń";
     deleteButton.addEventListener("click", () => {
       this.#listEl!.removeChild(itemEl);
+      const data = itemEl.dataset.item;
+      const item = JSON.parse(data!) as TodoItem;
+      this.#storageProvider?.onItemDelete(item.id!)
     });
     deleteButton.classList.add(...classUnify(this.#theme?.list_item_deleteButton ?? ''))
 
@@ -103,6 +113,10 @@ export class TodoComponent {
 
     this.#inputEl.value = ''
     this.#listEl.appendChild(itemEl);
+
+    this.#storageProvider?.onItemAdd(todoItem).then(item => {
+      itemEl.dataset.item = JSON.stringify(item)
+    })
   }
 }
 
@@ -131,7 +145,8 @@ export const TodoBoostrapTheme: TodoThemeSchema = {
 
 
 interface TodoOptions {
-  theme: TodoThemeSchema
+  theme: TodoThemeSchema,
+  storage?: TodoStorageProvider
 }
 
 interface TodoThemeSchema {
@@ -149,4 +164,17 @@ interface TodoThemeSchema {
   footer_input?: string,
   footer_addButton?: string,
   hidden?: string
+}
+
+export interface TodoStorageProvider {
+  onItemsLoad: () => Promise<TodoItem[]>
+  onItemAdd: (item: TodoItem) => Promise<TodoItem>
+  onItemUpdate: (item: TodoItem) => Promise<TodoItem>
+  onItemDelete: (id: number) => Promise<void>
+}
+
+export interface TodoItem {
+  id?: number
+  text: string
+  isChecked: boolean
 }
