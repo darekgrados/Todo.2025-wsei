@@ -1,4 +1,5 @@
 export class TodoComponent {
+  #rootEl: HTMLDivElement | undefined;
   #listEl: HTMLElement | undefined;
   #inputEl: HTMLTextAreaElement | undefined;
 
@@ -8,8 +9,9 @@ export class TodoComponent {
     this.#theme = options?.theme
   }
 
-  mount(targetEl: HTMLElement) {
-    targetEl.classList.add(...classUnify(this.#theme?.root ?? 'todo'));
+  mount(parent?: HTMLElement) {
+    this.#rootEl = document.createElement('div');
+    this.#rootEl.classList.add(...classUnify(this.#theme?.root ?? 'todo'));
 
     this.#listEl = document.createElement('ul');
     this.#listEl.classList.add(...classUnify(this.#theme?.list ?? 'todo-list'));
@@ -28,10 +30,14 @@ export class TodoComponent {
       evt.preventDefault()
     })
 
-    targetEl.appendChild(this.#listEl);
-    targetEl.appendChild(footerEl);
+    this.#rootEl.appendChild(this.#listEl);
+    this.#rootEl.appendChild(footerEl);
     footerEl.appendChild(this.#inputEl);
     footerEl.appendChild(addButtonEl);
+
+    if (parent) parent.appendChild(this.#rootEl);
+
+    return this.#rootEl;
   }
 
   addItem(extText?: string) {
@@ -50,7 +56,7 @@ export class TodoComponent {
       if (itemDoneTextClass) textEl.classList.toggle(itemDoneTextClass);
     });
     checkEl.classList.add(...classUnify(this.#theme?.list_item_check ?? ''))
-    
+
     const textEl = document.createElement('div');
     textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
     textEl.classList.add(...classUnify(this.#theme?.list_item_text ?? 'todo-item-text'));
@@ -105,7 +111,7 @@ function classUnify(classList: string) {
 
 // Bootstrap
 export const TodoBoostrapTheme: TodoThemeSchema = {
-  root: 'd-flex flex-column',
+  root: 'd-flex flex-column h-100',
   list: 'list-group flex-grow-1 p-2',
   list_item: 'list-group-item d-flex',
   list_itemDone: '',
@@ -159,14 +165,14 @@ export const TodoFoundationTheme: TodoThemeSchema = {
 
 // Materialize
 export const TodoMaterializeTheme: TodoThemeSchema = {
-  root: 'd-flex flex-column',  
-  list: 'collection flex-grow-1',      
-  list_item: 'collection-item d-flex align-items-center', 
+  root: 'd-flex flex-column',
+  list: 'collection flex-grow-1',
+  list_item: 'collection-item d-flex align-items-center',
   list_itemDone: '',
-  list_item_check: 'filled-in mr-2 no-materialize mt-5',     
-  list_item_text: 'flex-grow-1 mr-2',       
+  list_item_check: 'filled-in mr-2 no-materialize mt-5',
+  list_item_text: 'flex-grow-1 mr-2',
   list_item_textDone: 'has-text-line-through',
-  list_item_textEditInput: 'input-field flex-grow-1 mr-2', 
+  list_item_textEditInput: 'input-field flex-grow-1 mr-2',
   list_item_deleteButton: 'btn red',
   list_item_editButton: 'btn orange lighten-1 ml-1',
   footer: 'd-flex align-items-center p-2',
