@@ -3,10 +3,12 @@ export class TodoComponent {
   #listEl: HTMLElement | undefined;
   #inputEl: HTMLTextAreaElement | undefined;
 
-  #theme: TodoThemeSchema | undefined
+  #theme: TodoThemeSchema | undefined;
+  #storage: TodoStorageProvider | undefined;
 
   constructor(options?: TodoOptions) {
-    this.#theme = options?.theme
+    this.#theme = options?.theme;
+    this.#storage = options?.storage;
   }
 
   mount(parent?: HTMLElement) {
@@ -43,6 +45,11 @@ export class TodoComponent {
   addItem(extText?: string) {
     if (!this.#inputEl || !this.#listEl) throw new Error('Component probaly not initialized!');
 
+    const todoItem: TodoItem = {
+      text: extText ? extText : this.#inputEl?.value ?? '',
+      isChecked: false
+    }
+
     const itemEl = document.createElement('li')
     itemEl.classList.add(...classUnify(this.#theme?.list_item ?? 'todo-item'));
 
@@ -58,7 +65,7 @@ export class TodoComponent {
     checkEl.classList.add(...classUnify(this.#theme?.list_item_check ?? ''))
 
     const textEl = document.createElement('div');
-    textEl.textContent = extText ? extText : this.#inputEl?.value ?? null
+    textEl.textContent = todoItem.text;
     textEl.classList.add(...classUnify(this.#theme?.list_item_text ?? 'todo-item-text'));
 
     const deleteButton = document.createElement("button");
@@ -101,6 +108,8 @@ export class TodoComponent {
 
     this.#inputEl.value = ''
     this.#listEl.appendChild(itemEl);
+
+    this.#storage?.onItemAdd(todoItem);
   }
 }
 
@@ -200,8 +209,9 @@ export const TodoTailwindTheme: TodoThemeSchema = {
   hidden: 'hidden'
 }
 
-interface TodoOptions {
-  theme: TodoThemeSchema
+export interface TodoOptions {
+  theme: TodoThemeSchema,
+  storage?: TodoStorageProvider
 }
 
 interface TodoThemeSchema {
@@ -219,4 +229,17 @@ interface TodoThemeSchema {
   footer_input?: string,
   footer_addButton?: string,
   hidden?: string
+}
+
+export interface TodoStorageProvider {
+  onItemsLoading: () => Promise<TodoItem[]>
+  onItemAdd: (item: TodoItem) => Promise<TodoItem>
+  onItemUpdate: (item: TodoItem) => Promise<TodoItem>
+  onItemDelete: (id: number) => Promise<void>
+}
+
+export interface TodoItem {
+  id?: number,
+  text: string,
+  isChecked: boolean
 }

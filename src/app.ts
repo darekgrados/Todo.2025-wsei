@@ -65,8 +65,9 @@ async function loadTheme(themeName: keyof typeof themes) {
     }
 
     currentTodo = new TodoComponent({
-        theme: themes[themeName] || undefined
-    });
+        theme: themes[themeName] || undefined,
+      });
+
     currentTodo.mount(todoWrapper);
 }
 
