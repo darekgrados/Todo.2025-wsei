@@ -232,14 +232,14 @@ interface TodoThemeSchema {
 }
 
 export interface TodoStorageProvider {
-  onItemsLoading: () => Promise<TodoItem[]>
+  onItemsLoad: () => Promise<TodoItem[]>
   onItemAdd: (item: TodoItem) => Promise<TodoItem>
   onItemUpdate: (item: TodoItem) => Promise<TodoItem>
   onItemDelete: (id: number) => Promise<void>
 }
 
 export interface TodoItem {
-  id?: number,
-  text: string,
+  id?: number
+  text: string
   isChecked: boolean
 }
