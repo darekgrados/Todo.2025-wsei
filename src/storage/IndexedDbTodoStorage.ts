@@ -12,18 +12,15 @@ export class IndexedDbTodoStorage extends Dexie implements TodoStorageProvider {
     }
 
     onItemsLoad() {
-        return Promise.resolve([])
+        return this.todos.toArray()
     }
     onItemAdd(item: TodoItem) {
-        debugger
         return this.todos.add(item).then(() => Promise.resolve(item))
     }
     onItemUpdate(item: TodoItem) {
-        debugger
         return Promise.resolve(item)
     }
     onItemDelete(id: number) {
-        debugger
         return this.todos.delete(id)
     }
 }
