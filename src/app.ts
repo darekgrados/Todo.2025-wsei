@@ -1,17 +1,14 @@
-import { TodoBoostrapTheme, TodoComponent } from "./components/todo";
-import { IndexedDbTodoStorage } from "./storage/IndexedDbTodoStorage";
-// import { MockupTodoStorage } from "./storage/MockupTodoStorage";
+import { Router } from './router';
 
-const appEl = document.getElementById('app');
 
-const todoWrapper = document.createElement('div');
-todoWrapper.setAttribute('id', 'my-list');
+const appEl = document.getElementById('app')!;
+const router: Router = new Router(appEl);
 
-appEl?.appendChild(todoWrapper);
+// start page
+router.goto('Login');
 
-const todo = new TodoComponent({
-    theme: TodoBoostrapTheme,
-    storage: new IndexedDbTodoStorage()
-});
+if (!appEl) {
+    throw new Error('App element not found');
+}
 
-todo.mount(todoWrapper)
+export { router }
