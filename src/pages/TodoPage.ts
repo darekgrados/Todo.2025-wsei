@@ -1,5 +1,6 @@
 import { TodoComponent, TodoBoostrapTheme } from '../components/todo';
-import { IndexedDbTodoStorage } from '../storage/IndexedDbTodoStorage';
+import { BackendTodoStorage } from '../storage/BackendTodoStorage';
+// import { IndexedDbTodoStorage } from '../storage/IndexedDbTodoStorage';
 import { IPage } from './IPage';
 
 export default class TodoPage implements IPage {
@@ -12,7 +13,7 @@ export default class TodoPage implements IPage {
 
         this.#todoComponent = new TodoComponent({
             theme: TodoBoostrapTheme,
-            storage: new IndexedDbTodoStorage()
+            storage: new BackendTodoStorage()
         });
     }
 

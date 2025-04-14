@@ -1,4 +1,4 @@
-import { router } from "../app";
+import { backend, router } from "../app";
 import { IPage } from "./IPage";
 
 export default class LoginPage implements IPage {
@@ -55,11 +55,40 @@ export default class LoginPage implements IPage {
         this.#submitHandler = (evt) => {
             evt.preventDefault();
             // Handle login logic here
-            console.log('Login attempt:', {
+            const loginData = {
                 username: this.#usernameInputEl?.value,
                 password: this.#passwordInputEl?.value
-            });
-            router.goto('Todo');
+            }
+
+            console.log('Login attempt:', loginData);
+
+            backend.authenticate(loginData)
+                .then(data => {
+                    console.log(data)
+                    router.goto('Todo');
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                    alert('Login failed!')
+                });
+
+            // fetch('https://todo-back.runasp.net/authenticate', {
+            //     method: 'POST',
+            //     headers: {
+            //         'accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(loginData)
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         console.log(data)
+            //         router.goto('Todo');
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error)
+            //         alert('Login failed!')
+            //     });
         };
 
         this.#formEl.addEventListener('submit', this.#submitHandler);
