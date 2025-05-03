@@ -39,6 +39,16 @@ export class TodoComponent {
 
     if (parent) parent.appendChild(this.#rootEl);
 
+    this.#storage?.onItemsLoad().then(items => {
+      items.forEach(item => {
+        const todoItem: TodoItem = {
+          text: item.text,
+          isChecked: item.isChecked
+        }
+        this.addItem(todoItem.text);
+      })
+    })
+
     return this.#rootEl;
   }
 
