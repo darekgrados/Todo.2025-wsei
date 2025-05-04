@@ -70,12 +70,22 @@ export class TodoComponent {
 
     const checkEl = document.createElement('input');
     checkEl.type = 'checkbox'
+    checkEl.checked = _todoItem.isChecked;
+    
     checkEl.addEventListener('change', () => {
       const itemDoneClass = this.#theme?.list_itemDone ?? 'todo-item-done'
       if (itemDoneClass) itemEl.classList.toggle(itemDoneClass);
 
       const itemDoneTextClass = this.#theme?.list_item_textDone || ''
       if (itemDoneTextClass) textEl.classList.toggle(itemDoneTextClass);
+
+      const data = itemEl.dataset.item;
+      if (!data) return;
+      const item = JSON.parse(data) as TodoItem;
+      item.isChecked = checkEl.checked;
+      this.#storageProvider?.onItemUpdate(item).then(updated => {
+        itemEl.dataset.item = JSON.stringify(updated);
+      });
     });
     checkEl.classList.add(...classUnify(this.#theme?.list_item_check ?? ''))
 
@@ -92,6 +102,14 @@ export class TodoComponent {
       this.#storageProvider?.onItemDelete(item.id!)
     });
     deleteButton.classList.add(...classUnify(this.#theme?.list_item_deleteButton ?? ''))
+
+    const itemDoneClass = this.#theme?.list_itemDone ?? 'todo-item-done';
+    const itemDoneTextClass = this.#theme?.list_item_textDone ?? '';
+    
+    if (_todoItem.isChecked) {
+      if (itemDoneClass) itemEl.classList.add(...classUnify(itemDoneClass));
+      if (itemDoneTextClass) textEl.classList.add(...classUnify(itemDoneTextClass));
+    }
 
     const editButton = document.createElement("button");
     editButton.textContent = "Edytuj";
@@ -116,6 +134,14 @@ export class TodoComponent {
         deleteButton.disabled = false;
         editButton.dataset.mode = "readonly";
         editButton.textContent = "Edytuj";
+
+        const data = itemEl.dataset.item;
+        if (!data) return;
+        const item = JSON.parse(data) as TodoItem;
+        item.text = textEditEl.value;
+        this.#storageProvider?.onItemUpdate(item).then(updated => {
+          itemEl.dataset.item = JSON.stringify(updated);
+        });
       }
     });
 

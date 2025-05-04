@@ -5,16 +5,26 @@ export class BackendTodoStorage implements TodoStorageProvider {
     onItemsLoad() {
         return backend.getAllItems().then(items => { return items as TodoItem[] })
     }
+
     onItemAdd(item: TodoItem) {
-        debugger
-        return Promise.resolve(item)
+        return backend.saveItem({
+            text: item.text,
+            isChecked: item.isChecked
+        }).then(saved => {
+            item.id = saved.id;
+            return item;
+        });
     }
+
     onItemUpdate(item: TodoItem) {
-        debugger
-        return Promise.resolve(item)
+        return backend.saveItem({
+            id: item.id,
+            text: item.text,
+            isChecked: item.isChecked
+        }).then(() => item);
     }
+
     onItemDelete(id: number) {
-        console.log(id)
-        return Promise.resolve()
+        return backend.deleteItem(id);
     }
 }
