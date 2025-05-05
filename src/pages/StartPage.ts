@@ -17,14 +17,18 @@ export default class StartPage implements IPage {
 
         const options = ['LocalStorage', 'IndexedDb', 'Backend'];
         options.forEach(option => {
-          const btn = document.createElement('button');
-          btn.textContent = option;
-          btn.classList.add('btn', 'btn-secondary');
-          btn.addEventListener('click', () => {
-              console.log(`Wybrano: ${option}`);
-              router.goto('Login', { storage: option });
-          });
-          buttonsContainer.appendChild(btn);
+            const btn = document.createElement('button');
+            btn.textContent = option;
+            btn.classList.add('btn', 'btn-secondary');
+            btn.addEventListener('click', () => {
+                console.log(`Wybrano: ${option}`);
+                if (option === 'Backend') {
+                    router.goto('Login', { storage: option });
+                } else {
+                    router.goto('Todo', { storage: option });
+                }
+            });
+            buttonsContainer.appendChild(btn);
         });
 
         this.#rootEl.appendChild(buttonsContainer);

@@ -1,3 +1,4 @@
+import { router } from '../app';
 import { TodoComponent, TodoBoostrapTheme } from '../components/todo';
 import { BackendTodoStorage } from '../storage/BackendTodoStorage';
 import { IndexedDbTodoStorage } from '../storage/IndexedDbTodoStorage';
@@ -31,8 +32,31 @@ export default class TodoPage implements IPage {
     mount(parentElement: HTMLElement): HTMLElement {
         // Create header
         const header = document.createElement('header');
-        header.classList.add('p-3', 'bg-primary', 'text-white', 'shadow-sm');
-        header.innerHTML = '<h1 class="m-0 fs-4">My Todo List</h1>';
+        header.classList.add('p-3', 'bg-primary', 'text-white', 'shadow-sm', 'd-flex', 'align-items-center');
+        
+        const titleEl = document.createElement('h1');
+        titleEl.classList.add('m-0', 'fs-4');
+        titleEl.textContent = 'My Todo List';
+        header.appendChild(titleEl);
+
+        // Create storage switch container with 3 buttons
+        const storageSwitchContainer = document.createElement('div');
+        storageSwitchContainer.classList.add('ms-auto', 'd-flex', 'gap-2');
+        const storages = ['LocalStorage', 'IndexedDb', 'Backend'];
+        storages.forEach(storage => {
+            const btn = document.createElement('button');
+            btn.classList.add('btn', 'btn-secondary');
+            btn.textContent = storage;
+            btn.addEventListener('click', () => {
+                if (storage === 'Backend') {
+                    router.goto('Login', { storage });
+                } else {
+                    router.goto('Todo', { storage });
+                }
+            });
+            storageSwitchContainer.appendChild(btn);
+        });
+        header.appendChild(storageSwitchContainer);
 
         // Create main content area
         const mainContent = document.createElement('main');
