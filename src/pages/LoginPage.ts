@@ -7,6 +7,11 @@ export default class LoginPage implements IPage {
     #usernameInputEl: HTMLInputElement | undefined;
     #passwordInputEl: HTMLInputElement | undefined;
     #submitHandler: ((evt: Event) => void) | undefined;
+    #storageType: string | undefined; // dodane pole
+
+    constructor(params?: { storage?: string }) {
+        this.#storageType = params?.storage;
+    }
 
     mount(parentEl?: HTMLElement) {
         this.#rootEl = document.createElement('div');
@@ -65,7 +70,7 @@ export default class LoginPage implements IPage {
             backend.authenticate(loginData)
                 .then(data => {
                     console.log(data)
-                    router.goto('Todo');
+                    router.goto('Todo', { storage: this.#storageType });
                 })
                 .catch(error => {
                     console.error('Error:', error)

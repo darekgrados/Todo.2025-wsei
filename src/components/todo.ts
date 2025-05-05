@@ -195,16 +195,16 @@ export const TodoBoostrapTheme: TodoThemeSchema = {
   hidden: 'd-none'
 }
 
-// interface TodoOptions {
-//   theme: TodoThemeSchema,
-//   storage?: TodoStorageProvider
-// }
+interface TodoOptions {
+  theme: TodoThemeSchema,
+  storage?: TodoStorageProvider
+}
 
-const todo = new TodoComponent({
-  theme: TodoBoostrapTheme,
-  storage: new LocalTodoStorage()
-});
-todo.mount(document.getElementById('app')!);
+// const todo = new TodoComponent({
+//   theme: TodoBoostrapTheme,
+//   storage: new LocalTodoStorage()
+// });
+// todo.mount(document.getElementById('app')!);
 
 interface TodoThemeSchema {
   root?: string,

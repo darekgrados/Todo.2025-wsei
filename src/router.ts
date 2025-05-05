@@ -9,7 +9,7 @@ export class Router {
         this.#appEl = appEl;
     }
 
-    public goto(page: "Login" | "Todo"): void {
+    public goto(page: "Login" | "Todo" | "Start", params?: any): void {
         if (this.#currentPageInstance) {
             this.#currentPageInstance.unmount();
         }
@@ -18,11 +18,11 @@ export class Router {
         const pageEl = document.createElement('div');
         pageEl.id = page;
 
-        console.log(`Navigating to ${page} page`);
+        console.log(`Navigating to ${page} page with params:`, params);
         import(`./pages/${page}Page`).then(module => {
-            const page = new module.default() as IPage;
-            this.#currentPageInstance = page;
-            page.mount(this.#appEl);
+            const pageInstance = new module.default(params);
+            this.#currentPageInstance = pageInstance;
+            pageInstance.mount(this.#appEl);
         });
     }
 
